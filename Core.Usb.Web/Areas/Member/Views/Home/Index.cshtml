@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+}
+
+<!--
+author: W3layouts
+author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <!-- custom-theme -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Esteem Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //custom-theme -->
+
+    <link href="~/web3/css/component.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/web3/css/export.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/web3/css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
+
+
+
+</head>
+<body>
+    <!-- banner -->
+    <div class="clearfix"></div>
+    <div class="ml-5">
+        <ul class="ca-menu text-center">
+            <li>
+                <a href="#">
+                    <i class="fa fa-pencil-alt fa-6x  mt-3" aria-hidden="true"></i>
+                    <div class="ca-content">
+                        <h4 class="ca-main mt-3">@ViewBag.totalReportNumber</h4>
+                        <h3 class="ca-sub">Yazdığınız Toplam Rapor Sayısı</h3>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Work" asp-area="Member">
+                    <i class="fa fa-check-square fa-6x  mt-3" aria-hidden="true"></i>
+                    <div class="ca-content">
+                        <h4 class="ca-main one  mt-3">@ViewBag.totalWorkNumber</h4>
+                        <h3 class="ca-sub one">Tamamladığınız Görev Sayısı</h3>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Notification" asp-area="Member">
+                    <i class="fa fa-bell fa-6x  mt-3" aria-hidden="true"></i>
+                    <div class="ca-content">
+                        <h4 class="ca-main two  mt-3">@ViewBag.totalNotificationNumber</h4>
+                        <h3 class="ca-sub two">Okunmamış Bildirim Sayısı</h3>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="WorkOrder" asp-area="Member">
+                    <i class="fa fa-tasks fa-6x  mt-3" aria-hidden="true"></i>
+                    <div class="ca-content">
+                        <h4 class="ca-main three  mt-3">@ViewBag.totalNotFinishedWorkNumber</h4>
+                        <h3 class="ca-sub three">Tamamlamanız Gereken Görev Sayısı</h3>
+                    </div>
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</body>
+</html>
+
+
+

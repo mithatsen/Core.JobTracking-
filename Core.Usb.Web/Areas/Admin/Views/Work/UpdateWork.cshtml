@@ -1,0 +1,41 @@
+﻿@model WorkUpdateDto
+@{
+    ViewData["Title"] = "UpdateWork";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form class="w-50 mx-auto p-3" method="post">
+    <input hidden="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label class="lead" asp-for="Name">Ad:</label>
+        <span class="text-danger ml-5" asp-validation-for="Name"></span>
+        <input asp-for="Name" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="lead" asp-for="Explanation">Açıklama : </label>
+        <span class="text-danger ml-5" asp-validation-for="Explanation"></span>
+        <textarea asp-for="Explanation" class="form-control"> </textarea>
+    </div>
+    <input type="hidden" asp-for="AppUserId" value="@Model.AppUserId" />
+
+   
+    <div class="form-group">
+        <label class="lead">Aciliyet Durumu Seçiniz</label>
+        <span class="text-danger ml-5" asp-validation-for="PriorityId"></span>
+        <select asp-for="PriorityId" type="text" class="form-control" asp-items="@ViewBag.Priorities">
+            <option disabled value="-1">Seçiniz</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm"> Güncelle <i class="fas fa-check ml-2"></i> </button>
+
+</form>
+
+@section JavaScript{
+
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+
+
+
+

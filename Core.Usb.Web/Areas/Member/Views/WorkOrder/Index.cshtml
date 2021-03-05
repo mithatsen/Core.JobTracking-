@@ -1,0 +1,147 @@
+﻿@model List<WorkListWithAllTableDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+    int index = 0;
+}
+
+
+
+@if (Model.Count > 0)
+{
+    @foreach (var item in Model)
+    {
+        index++;
+        <div class="card text-center mt-5 w-50 mx-auto ">
+            <div class="card-header" style="background-color:#838ed3">
+                <h2 style="color:aliceblue">@item.Name</h2>
+            </div>
+            <div class="card-body ">
+                <h5 class="card-title"> <strong class="text-primary mr-2"> Öncelik durumu :</strong>@item.Priority.Name</h5>
+                <p class="card-text ">@item.Explanation</p>
+
+                @if (@item.Reports.Count > 0)
+                {
+                    <a data-toggle="collapse" href="#collapseExample-@index" role="button" aria-expanded="false" aria-controls="collapseExample" class="btn btn-outline-dark btn-sm">
+                        Raporlara git
+                        <i class="fas fa-sort-down ml-2 fa-1x"></i>
+                        <span class="badge badge-dark">@item.Reports.Count</span>
+                    </a>
+                }
+                else
+                {
+                    <span class="lead font-weight-bold font-italic d-block text-center mb-3 text-secondary">
+                        Hiç rapor yazmamışsınız. Lütfen görevinizdeki ilerlemelerden bahsedin.
+                    </span>
+                    <a asp-action="CreateReport" asp-route-id="@item.Id" class="btn btn-dark btn-sm">
+                        Rapor Oluştur
+                    </a>
+                }
+
+                <a class="btn btn-success btn-sm ml-3" asp-action="FinishWork" asp-controller="WorkOrder" asp-route-id="@item.Id" data-toggle="modal" data-target="#FinishModal" data-efe="@item.Id">
+                    Tamamlandı
+                    <i class="fas fa-check ml-2"></i>
+                </a>
+
+            </div>
+            <div class="collapse mb-3" id="collapseExample-@index">
+                <a asp-action="CreateReport" asp-route-id="@item.Id" class="btn btn-primary btn-sm float-left mb-1">
+                    <i class="fas fa-plus"></i>
+                </a>
+                <table class="table table-bordered table-sm table-hover">
+                    <tr>
+
+                        <th>Tanım</th>
+                        <th>Detay</th>
+                        <th></th>
+                    </tr>
+                    @foreach (var x in item.Reports)
+                    {
+                        <tr>
+                            <td>@x.Name</td>
+                            <td>@x.Detail</td>
+                            <td><a asp-action="UpdateReport" asp-route-id="@x.Id" class="btn btn-info">Düzenle <i class="fas fa-pen ml-2"></i></a></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="card-footer bg-danger">
+                @{
+                    var fark = (int)(DateTime.Now - item.CreationDate).TotalDays;
+
+                }
+                @if (fark == 0)
+                {
+                    <small class="text-light" style="font-weight:300">Görev Bugün Oluşturuldu</small>
+                }
+                else
+                {
+                    <small class="text-light" style="font-weight:300">Görev @fark Gün önce Oluşturuldu</small>
+                }
+
+            </div>
+
+        </div>
+
+    }
+}
+else
+{
+    <div class="text-center">
+        <h4 class="mt-5 text-danger ">Şu anda üstünüze tanımlı herhangi bir görev bulunmamaktadır </h4>
+        <br />
+    </div>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="FinishModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Görevi tamamlandı olarak işaretlemek istediğinizden emin misiniz
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+                <button id="btnFinish" type="button" class="btn btn-danger">Evet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section JavaScript {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#FinishModal").on("show.bs.modal", function (event) {
+                let element = $(event.relatedTarget);
+                let id = element.data("efe");  // yukarda yavuz-data ya id yi yüklüyoruz burda çekiyor.
+                console.log(id)
+                $("#btnFinish").click(function () {
+                    $.ajax({
+                        type: "Get",
+                        url: "./FinishWork",
+                        data: { id: id },   // sol taraf arka tarftaki parametrenin adı
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function () {
+                            window.location.reload();
+                        },
+                        error: function (error) {
+                            alert(error.statusText);
+                        }
+
+                    })
+                });
+            });
+        });
+
+    </script>
+
+}

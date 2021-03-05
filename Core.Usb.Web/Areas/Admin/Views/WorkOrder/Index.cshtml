@@ -1,0 +1,75 @@
+﻿@model List<WorkListWithAllTableDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (@Model.Count > 0)
+{
+    <div class="w-75 mx-auto  mb-2">
+        <a asp-area="Admin" asp-controller="Work" asp-action="CreateWork" class="btn btn-dark mt-5 ">Yeni Görev Ekle</a>
+    </div>
+
+
+    <table class="table table-hover table-bordered w-75 mx-auto">
+
+        <thead>
+            <tr class="table table-info">
+                <th>Ad</th>
+
+                <th>Oluşturulma Tarihi</th>
+                <th>Personel</th>
+                <th>Aciliyeti</th>
+                <th>Rapor Sayısı</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+
+                    <td>@item.CreationDate.ToString("dd:MM:yyyy")</td>
+                    <td>
+                        @{
+                            if (item.AppUser == null)
+                            {
+                                <span class="badge badge-danger">Çalışan Personel yok</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-success">@item.AppUser.Name @item.AppUser.Surname çalışıyor</span>
+                            }
+                        }
+                    </td>
+                    <td>@item.Priority.Name</td>
+                    <td>@item.Reports.Count</td>
+                    <td>
+                        @{
+                            if (item.AppUser == null)
+                            {
+                                <a asp-action="AssignPersonel" asp-route-id="@item.Id" class="btn btn-dark btn-sm">Personel Ata <i class="fas fa-clipboard-check text-white ml-2"></i></a>
+                            }
+                            else
+                            {
+                                <a asp-action="ShowDetail" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detay Göster <i class="fas fa-info text-white ml-2"></i></a>
+                            }
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+else
+{
+    <div class="text-center">
+        <h4 class="mt-5 text-danger ">Herhangi bir Görev Bulunmamaktadır </h4>
+
+    </div>
+}
+
+

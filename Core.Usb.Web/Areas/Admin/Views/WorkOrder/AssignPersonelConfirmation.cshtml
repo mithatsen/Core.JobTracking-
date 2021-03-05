@@ -1,0 +1,90 @@
+﻿@model PersonelAssignListDto
+@{
+    ViewData["Title"] = "AssignPersonelConfirmation";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="row">
+
+
+
+    <div class="col-md-4">
+        <div class="card mt-4">
+            <div class="card-header pt-3 bg-info text-light ">
+
+                <h4 class="text-center lead"> Görev Bilgileri</h4>
+
+            </div>
+            <div class="card-body mx-auto py-5">
+                <h5 class="card-title mx-5 mb-4">@Model.Work.Name</h5>
+                <p class="card-text">
+                    @Model.Work.Explanation
+                </p>
+                <p class="card-text">
+                    @{
+                        if (@Model.Work.Priority.Name == "Çok Acil")
+                        {
+
+                            <strong>Aciliyet Durumu: </strong> <span class="badge badge-danger">@Model.Work.Priority.Name</span>
+                        }
+                        else if (@Model.Work.Priority.Name == "Normal")
+                        {
+                            <strong>Aciliyet Durumu: </strong> <span class="badge badge-info">@Model.Work.Priority.Name</span>
+                        }
+                        else
+                        {
+                            <strong>Aciliyet Durumu: </strong> <span class="badge badge-success">@Model.Work.Priority.Name</span>
+                        }
+
+                    }
+
+                </p>
+            </div>
+            <div class="card-footer bg-dark text-light text-center">
+                <small>
+                    @Model.Work.CreationDate.ToString("D")
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 mt-4 ">
+        <div class="card mb-3 ">
+            <div class="card-header pt-3 bg-info text-light ">
+
+                <h4 class="text-center lead"> Personel Bilgileri</h4>
+
+            </div>
+            <div class="row no-gutters">
+
+                <div class="col-md-4">
+                    <img src="~/images/@Model.User.Picture"
+                         alt="@Model.User.Name"
+                         class="card-img pt-2"
+                         style=" height:15rem!important; width:15rem!important " />
+                </div>
+                <div class="col-md-8 ">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.User.Name @Model.User.Surname</h5>
+                        <p class="card-text mt-5"><GetWorkWithAppUserId app-user-id="@Model.User.Id"></GetWorkWithAppUserId></p>
+                        <p class="card-text mt-5"> <small>@Model.User.Email</small>   </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<form asp-action="AssignPersonel"method="post">
+    <div class="mt-5 text-center">
+        <input type="hidden" name="PersonelId" value="@Model.User.Id" />
+        <input type="hidden" name="WorkId" value="@Model.Work.Id" />
+        <h4>Yukarıdaki göreve ilgili personel atanacaktır.Bu işlemi gerçekleştirmek istediğinizden emin misiniz?</h4>
+        <button type="submit" class=" btn btn-success text-center mt-5">Evet Görevlendir </button> &nbsp; &nbsp; &nbsp; <a class="mt-5 btn btn-danger" asp-action="AssignPersonel" asp-route-id="@Model.Work.Id">Hayır Vazgeç</a>
+    </div>
+</form>
+
+
+

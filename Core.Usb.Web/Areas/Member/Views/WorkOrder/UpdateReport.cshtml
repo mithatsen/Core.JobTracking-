@@ -1,0 +1,41 @@
+﻿@model ReportUpdateDto
+@{
+    ViewData["Title"] = "UpdateReport";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+}
+
+
+
+<form class="w-50 mx-auto p-3" method="post">
+    <h4>Rapor Güncelle</h4>
+    <div class="card text-white bg-secondary my-5" style="max-width: 50rem;">
+        <div class="card-header">@Model.Work.Name</div>
+        <div class="card-body">
+            <h5 class="card-title">Aciliyet : @Model.Work.Priority.Name</h5>
+            <p class="card-text">@Model.Work.Explanation</p>
+        </div>
+    </div>
+
+
+    <input type="hidden" asp-for="WorkId" value="@Model.WorkId" />
+    <div class="form-group mt-5 w-50">
+        <label class="lead" asp-for="Name">Tanım</label>
+        <span class="text-danger ml-5" asp-validation-for="Name"></span>
+        <input asp-for="Name" type="text" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="lead" asp-for="Detail">Detay</label>
+        <span class="text-danger ml-5" asp-validation-for="Detail"></span>
+        <textarea asp-for="Detail" type="text" class="form-control"></textarea>
+    </div>
+    <a class="btn btn-warning btn-sm"> <i class="fas fa-arrow-circle-left text-light mr-2"></i>Vazgeç</a>
+    <button type="submit" class="btn btn-success btn-sm"> Güncelle <i class="fas fa-pen ml-2"></i> </button>
+
+</form>
+
+@section JavaScript{
+
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+

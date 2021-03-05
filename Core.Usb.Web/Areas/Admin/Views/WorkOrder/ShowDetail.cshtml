@@ -1,0 +1,38 @@
+﻿@model WorkListWithAllTableDto
+@{
+    ViewData["Title"] = "ShowDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (Model.Reports.Count > 0)
+{
+    <a asp-action="getExcel" asp-route-id="@Model.Id" target="_blank" class="btn btn-dark  my-2">Excel <i class="fas fa-file-excel ml-2"></i></a>
+    <a asp-action="getPdf" asp-route-id="@Model.Id" target="_blank" class="btn btn-dark  my-2">Pdf <i class="fas fa-file-pdf ml-2"></i></a>
+    <table class="table-hover table-bordered table mt-2 text-center">
+        <tr class="table table-info">
+            <th colspan="2">@Model.AppUser.Name @Model.AppUser.Surname personelinizin @Model.Name görevine yazmış olduğu raporlar</th>
+
+        </tr>
+        <tr class="text-center">
+            <th>Tanım</th>
+            <th>Detay</th>
+        </tr>
+        @foreach (var item in Model.Reports)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Detail</td>
+            </tr>
+        }
+    </table>
+
+}
+else
+{
+    <div class="text-center">
+        <h4 class="mt-5 text-danger ">@Model.AppUser.Name @Model.AppUser.Surname adlı personelimiz şu anda @Model.Name adlı görev üzerinde çalışıyor. <br /> <br />Henüz bir rapor yazmamış. </h4>
+        <br />
+    </div>
+
+}
+

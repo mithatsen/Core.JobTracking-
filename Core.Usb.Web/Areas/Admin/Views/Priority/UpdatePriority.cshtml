@@ -1,0 +1,25 @@
+﻿@model PriorityUpdateDto 
+@{
+    ViewData["Title"] = "UpdatePriority";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<form class="w-50 mx-auto p-3" method="post" asp-action="UpdatePriority"asp-controller="Priority">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label class="lead" asp-for="Name">Tanım:</label>
+        <span class="text-danger ml-5" asp-validation-for="Name"></span>
+        <input asp-for="Name" type="text" class="form-control" />
+
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm"> Güncelle <i class="fas fa-check ml-2"></i> </button>
+
+</form>
+
+@section JavaScript{
+
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+
+

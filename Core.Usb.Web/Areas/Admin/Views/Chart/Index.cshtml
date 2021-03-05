@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html>
+<head>
+
+</head>
+<body>
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="piechart_3d_2" style="width: 900px; height: 500px;"></div>
+        </div>
+    </div>
+    
+    
+
+</body>
+</html>
+
+@section JavaScript {
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        let mostSuccessful5Staffs = [['Personel Adı', 'Görev Sayısı']]
+
+        $.ajax({
+            type: "Get",
+            url: "/Admin/Chart/SuccessfulStaffsGeneral",
+            async: false,
+            success: function (data) {
+                console.log(data);
+                let gelenObje = jQuery.parseJSON(data);
+                $.each(gelenObje, (index, value) => {
+                    mostSuccessful5Staffs.push([value.Name, value.Number]);
+
+                });
+            }
+
+        })
+        console.log(mostSuccessful5Staffs);
+
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(mostSuccessful5Staffs);
+
+            var options = {
+                title: 'Şu ana kadar En Çok İş Bitiren Personeller',
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+            chart.draw(data, options);
+        }
+
+
+    </script>
+    <script type="text/javascript">
+        let mostSuccessfulStaffs2 = [['Personel Adı', 'Görev Sayısı']]
+
+        $.ajax({
+            type: "Get",
+            url: "/Admin/Chart/SuccessfulStaffsNow",
+            async: false,
+            success: function (data) {
+                let gelenObje = jQuery.parseJSON(data);
+                $.each(gelenObje, (index, value) => {
+                    mostSuccessfulStaffs2.push([value.Name, value.Number]);
+
+                });
+            }
+
+        })
+        console.log(mostSuccessfulStaffs2);
+
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart2);
+        function drawChart2() {
+            var data = google.visualization.arrayToDataTable(mostSuccessfulStaffs2);
+
+            var options = {
+                title: 'Şu anda En Çok İşe Devam Eden Personeller',
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d_2'));
+            chart.draw(data, options);
+        }
+
+
+    </script>
+
+
+}
+
